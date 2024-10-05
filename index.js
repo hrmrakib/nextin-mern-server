@@ -134,32 +134,6 @@ async function run() {
       }
     });
 
-    // filter
-    app.get("/api/filter", async (req, res) => {
-      const param = req.query;
-      try {
-        const findMinMaxPrice = await categoriesCollection
-          .aggregate([
-            {
-              $group: {
-                _id: null,
-                minRate: {
-                  $min: "$price.rate",
-                },
-                maxRate: {
-                  $max: "$price.rate",
-                },
-              },
-            },
-          ])
-          .toArray();
-
-        res.send(findMinMaxPrice);
-      } catch (error) {
-        res.status(500).json({ error: error.message });
-      }
-    });
-
     console.log(
       "Pinged your deployment. You successfully connected to MongoDB!"
     );
