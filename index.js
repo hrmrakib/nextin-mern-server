@@ -26,8 +26,11 @@ app.use(
   })
 );
 
+const uri =
+  "mongodb+srv://airbnb:raeOVKfYhTXkr3Bh@cluster0.dmwxvyo.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+
 // const uri = "mongodb+srv://portfolio-app:<db_password>@portfoliocluster.wjb6ygv.mongodb.net/?retryWrites=true&w=majority&appName=portfolioCluster";
-const uri = "mongodb://localhost:27017";
+// const uri = "mongodb://localhost:27017";
 
 const client = new MongoClient(uri, {
   serverApi: {
@@ -44,6 +47,11 @@ async function run() {
 
     // collections
     const categoriesCollection = db.collection("categories");
+
+    // home route
+    app.get("/", (req, res) => {
+      res.send("Hello, I am running!");
+    });
 
     // get categories data based on filter value, otherwise fetch all categories
     app.get("/api/categories", async (req, res) => {
@@ -68,11 +76,8 @@ async function run() {
       try {
         const param = req.query;
 
-        console.log("param: ", param.type);
         const searchQuery = { category: param.searchQuery };
         const typeQuery = { type: param.type };
-
-        console.log(searchQuery, typeQuery);
 
         if (param.type === "any") {
           const findMinMaxPrice = await categoriesCollection
