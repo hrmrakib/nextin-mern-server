@@ -20,17 +20,20 @@ const { MongoClient, ServerApiVersion } = require("mongodb");
 app.use(express.json());
 app.use(
   cors({
-    origin: ["http://localhost:5173", "http://localhost:5174"],
+    origin: [
+      "http://localhost:5173",
+      "http://localhost:5174",
+      "https://airbnb-app-pi.vercel.app",
+    ],
     credentials: true,
     optionsSuccessStatus: 200,
   })
 );
 
-const uri =
-  "mongodb+srv://airbnb:raeOVKfYhTXkr3Bh@cluster0.dmwxvyo.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+// const uri =
+//   "mongodb+srv://airbnb:raeOVKfYhTXkr3Bh@cluster0.dmwxvyo.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
-// const uri = "mongodb+srv://portfolio-app:<db_password>@portfoliocluster.wjb6ygv.mongodb.net/?retryWrites=true&w=majority&appName=portfolioCluster";
-// const uri = "mongodb://localhost:27017";
+const uri = "mongodb://localhost:27017";
 
 const client = new MongoClient(uri, {
   serverApi: {
@@ -71,7 +74,7 @@ async function run() {
       }
     });
 
-    // place
+    // place filter
     app.get("/api/type-of-place", async (req, res) => {
       try {
         const param = req.query;
@@ -137,6 +140,54 @@ async function run() {
       } catch (error) {
         res.status(500).json({ error: error.message });
       }
+    });
+
+    // on top search - resion, date, and guests
+    app.get("/api/search", async (req, res) => {
+      const param = req.query;
+      const region = param.region;
+      const checkIn = Number(param?.checkIn?.split(" ")[1]);
+      const checkOut = Number(param?.checkOut?.split(" ")[1]);
+      const guests = param.guests;
+
+      const adult = parseInt(guests?.adult);
+      const children = parseInt(guests?.children);
+      const infants = parseInt(guests?.infants);
+      const pets = parseInt(guests?.pets);
+
+      const query = {};
+
+      if (region !== "I'm flexible") {
+        query.region = region;
+      }
+
+      if (checkIn) {
+        query.checkIn = { $gte: checkIn };
+      }
+
+      if (checkOut) {
+        query.checkOut = { $gte: checkOut };
+      }
+
+      if (guests && adult) {
+        query.adult = { $gte: adult };
+      }
+
+      if (guests && children) {
+        query.children = { $gte: children };
+      }
+
+      if (guests && infants) {
+        query.infants = { $gte: infants };
+      }
+
+      if (guests && pets) {
+        query.pets = { $gte: pets };
+      }
+
+      const result = await categoriesCollection.find(query).toArray();
+      console.log({ param }, { query });
+      res.send(result);
     });
 
     console.log(
