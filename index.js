@@ -30,10 +30,10 @@ app.use(
   })
 );
 
-// const uri =
-//   "mongodb+srv://airbnb:raeOVKfYhTXkr3Bh@cluster0.dmwxvyo.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const uri =
+  "mongodb+srv://airbnb:raeOVKfYhTXkr3Bh@cluster0.dmwxvyo.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
-const uri = "mongodb://localhost:27017";
+// const uri = "mongodb://localhost:27017";
 
 const client = new MongoClient(uri, {
   serverApi: {
