@@ -1,4 +1,4 @@
-## [Live Preview](https://airbnb-app-pi.vercel.app/)
+## [Live Preview](https://nextin-app.vercel.app/)
 
 
 ## <a name="quick-start">🤸 Quick Start</a>
@@ -16,8 +16,8 @@ Make sure you have the following installed on your machine:
 **Cloning the Repository**
 
 ```bash
-git clone https://github.com/hrmrakib/airbnb-mern-server.git
-cd airbnb-mern-server
+git clone https://github.com/hrmrakib/nextin-mern-server.git
+cd nextin-mern-server
 ```
 
 **Installation**
