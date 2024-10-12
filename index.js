@@ -1,7 +1,6 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
-// require("dotenv").config();
 const port = process.env.PORT || 4000;
 
 const { MongoClient, ServerApiVersion } = require("mongodb");
@@ -15,7 +14,7 @@ const { MongoClient, ServerApiVersion } = require("mongodb");
 //     models/
 //     routes/
 //     utils/
-//     app.js
+//     index.js
 
 app.use(express.json());
 app.use(
@@ -23,7 +22,7 @@ app.use(
     origin: [
       "http://localhost:5173",
       "http://localhost:5174",
-      "https://airbnb-app-pi.vercel.app",
+      "https://nextin-app.vercel.app/",
     ],
     credentials: true,
     optionsSuccessStatus: 200,
@@ -186,7 +185,7 @@ async function run() {
       }
 
       const result = await categoriesCollection.find(query).toArray();
-      console.log({ param }, { query });
+
       res.send(result);
     });
 
